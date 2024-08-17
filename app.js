@@ -9,7 +9,6 @@ if(process.env.MODE_ENV !="production"){
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
-const Listing=require("./Models/listing.js");
 app.set("view engine","ejs");
 const ejsMate=require("ejs-mate");
 
@@ -26,19 +25,9 @@ const userRouter=require("./routes/user.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local")
 const modelUser=require("./Models/user.js");
-const multer=require("multer");
-const {storage}=require("./cloudConfig.js");
-const upload = multer({storage })
+
 
 const cookieParser=require("cookie-parser");
-
-const http=require("http");
-const socketio=require("socket.io");
-
-const server=http.createServer(app);
-const io=socketio(server);
-
-
 
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({extended:true}));
@@ -104,21 +93,6 @@ app.use((req,res,next)=>{
 })
 
 
-
-
-io.on("connection",(socket)=>{
-    
-    socket.on("send-location",(data)=>{
-        io.emit("receive-location",{id:socket.id, ...data});
-    })
-    socket.on("disconnect",()=>{
-        io.emit("user-disconnected",socket.id);
-    })
-   
-})
-
-
-
 app.use("/lists",listsRouter); // it is use to show DATA--
 
 app.use("/lists/:id/reviews",reviewRouter); // it is working on review (Add,delete)- 
@@ -142,6 +116,6 @@ app.use((err,req,res,next)=>{
 })
 
 
-server.listen("8080",(req,res)=>{
-    console.log("server is ready to listen...");
+app.listen("8080",(req,res)=>{
+    console.log("server is ready to listen on port 8080 ...");
 })
