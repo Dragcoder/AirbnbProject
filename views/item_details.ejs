@@ -2,7 +2,7 @@
 
 
   <div class="row mt-2">
-    <div class="col-8 offset-3">
+    <div class="col-8 offset-3 listing-title">
       <h3>
         <%=targetData.title%>
       </h3>
@@ -49,7 +49,7 @@
         </div>
         
 
-          <div class="col-8 offset-3 mb-3 mt-2">
+          <div class="col-8 offset-3 mb-3 mt-2 rating-card">
             
             
 
@@ -59,8 +59,9 @@
 
             <form class="mb-3 mt-2" action="/lists/<%=targetData.id%>/reviews" method="POST">
               <div>
+                <hr >
                 <label for="rating" class="form-label">Rating</label>
-                <fieldset class="starability-slot">
+                <fieldset class="starability-slot star-symbol">
                   <input type="radio" id="no-rating" class="input-no-rate" name="review[rating]" value="1" checked
                     aria-label="No rating." />
                   <input type="radio" id="second-rate1" name="review[rating]" value="1" />
@@ -74,9 +75,10 @@
                   <input type="radio" id="second-rate5" name="review[rating]" value="5" />
                   <label for="second-rate5" title="Amazing">5 stars</label>
                 </fieldset>
+                
               </div>
 
-              <div class="mb-3 mt-2">
+              <div class="mb-3 mt-2 comment-box">
                 <label for="comment" class="form-label">Comments</label>
                 <textarea class="form-control" name="review[comment]" id="comment" cols="50" rows="5"
                   required></textarea>
@@ -91,26 +93,37 @@
                 
               
                
-                <div class="row">
-                
-
+                <div class="row ">
+                  <div>
+                    <hr>
+                  </div>
+                  
+                  
                   <% if(targetData.reviews.length>0){ %>
                     
-                    <div class="col-9 ms-1">
-                      <hr>
+                    <div class="col-9 ms-1 ">
+                      
                       <p><b>All Reviews</b></p>
                     </div>
                    
 
                    
                     <%for(review of targetData.reviews){%>
-                      <div class="card col-5 ms-3 mb-3">
+                      <div class="card col-5 ms-3 mb-3 review-card">
+                        
                         <div class="card-body">
-                          <h5 class="card-title">
+                          <h6 class="card-title">
                            <i>@<%=review.author.username%></i>
-                          </h5>
-                          <p class="starability-result" data-rating="<%=review.rating%>">Rated: 3 stars</p>
+                          </h6>
                           
+                          <div class="showing-rating-star">
+                            <p class="starability-result " data-rating="<%=review.rating%>">Rated: 3 stars</p>
+                          </div>
+                         
+                          <div class="showing-rating-text-based">
+                            <p><%=review.rating%> Star </p>
+                          </div>
+
                           <p class="card-text">
                             <%=review.comment%>
                           </p>
@@ -138,7 +151,7 @@
         
           </div>
         
-
+         
 
       </div>
 

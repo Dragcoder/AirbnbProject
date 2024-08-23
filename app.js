@@ -1,16 +1,18 @@
 // server ---
 
-if(process.env.MODE_ENV !="production"){
-    require('dotenv').config() // to help access .env file data
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
 }
+
 
 
 
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
-app.set("view engine","ejs");
 const ejsMate=require("ejs-mate");
+
+
 
 const ExpressError=require("./utils/ExpressError.js");
 const path=require("path")
@@ -25,24 +27,29 @@ const userRouter=require("./routes/user.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local")
 const modelUser=require("./Models/user.js");
-
+const Listing=require("./Models/listing.js");
 
 const cookieParser=require("cookie-parser");
 
 app.use(methodOverride("_method"));
+// 
+
+
+
+app.set("view engine","ejs");
+
+app.engine("ejs",ejsMate);
+
 app.use(express.urlencoded({extended:true}));
 
 
-
-
-app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
 app.use(cookieParser("secretCode")); // secretCode is unquie
 const flash=require("connect-flash");
 
-// const dbUrl=process.env.ATLASDB_URL;
-const dbUrl="mongodb://127.0.0.1:27017/advanture";
+const dbUrl=process.env.ATLASDB_URL;
+// const dbUrl="mongodb://127.0.0.1:27017/advanture";
 
 async function main(){
     await mongoose.connect(dbUrl);
@@ -59,7 +66,7 @@ const store=MongoStore.create({
     touchAfter: 24*3600
 })
 store.on("error",(err)=>{
-    console.log("Error in MongoSession",err);
+    console.log("Error in MongoSession side: ",err);
 })
 
 const sessionOption={
@@ -73,6 +80,7 @@ const sessionOption={
         httpOnly:true
     }
 }
+
 
 
 
@@ -94,24 +102,27 @@ app.use((req,res,next)=>{
 })
 
 
-app.use("/lists",listsRouter); // it is use to show DATA--
-
-app.use("/lists/:id/reviews",reviewRouter); // it is working on review (Add,delete)- 
-                                        // here :id is params-- this will not send to review file so for this use mergParams:true;
+// define router-
+app.use("/lists",listsRouter);
+app.use("/lists/:id/reviews",reviewRouter);
 app.use("/",userRouter);
+
+
 
 app.all("*",(req,res,next)=>{
     next(new ExpressError(404,"Page not found"));
 })
 
 
-//Error handling--
-app.use((err,req,res,next)=>{
-    let {statusCode,message}=err;
-    res.status(statusCode).render("error.ejs",{message});
-   
 
-})
+//Error handling--
+app.use((err, req, res, next) => {
+    // Set default values if they are undefined
+    const { statusCode = 500, message = "Something went wrong!" } = err;
+
+    res.status(statusCode).render("error.ejs", { message });
+});
+
 
 
 app.listen("8080",(req,res)=>{

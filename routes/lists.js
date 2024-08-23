@@ -7,9 +7,10 @@ const { listingSchema } = require("../schema.js");
 const listsController=require("../controllers/lists.js");
 const {isLoggedIn, isPostOwner,isValidateListing}=require("../middleware.js");
 
-const multer  = require('multer')
+const multer  = require("multer");
 const {storage}=require("../cloudConfig.js");
 const upload = multer({storage}) // where store files in uploads folder-name
+
 
 
 // show listings , create listing--
@@ -18,8 +19,10 @@ const upload = multer({storage}) // where store files in uploads folder-name
 router
     .route("/")
     .get(wrapAsync(listsController.showLists))
-    .post(isLoggedIn,upload.single('image'),(listsController.createList))
-    
+    .post(isLoggedIn,upload.single('image'),wrapAsync(listsController.createList))
+
+
+
 
 router
     .get("/newlist",isLoggedIn,listsController.renderNewForm)

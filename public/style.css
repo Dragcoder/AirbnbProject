@@ -94,12 +94,20 @@ body{
 
 .listing-card{
     border: none !important;
-    margin-bottom: 2rem;
+
 
 }
 .card-body{
     padding: 0 !important;
 }
+
+
+
+.showing-rating-text-based{
+    display: none !important; 
+}
+
+
 
 .card-img-top{
     border-radius: 1rem !important;
@@ -128,6 +136,8 @@ body{
     justify-content: center;
 }
 
+
+
 #map{
     width:100%;
     height:40vh;
@@ -141,8 +151,43 @@ body{
 
 
 
-@media(max-width: 529px){
+@media(max-width: 519px){
   .filters{
     display: none !important;
   }
+   
 }
+@media(max-width:767px) {
+    
+    .showing-rating-star{
+        display: none !important;
+      }
+
+    .showing-rating-text-based{
+        display: block !important; 
+      }
+    .listing-title{
+        margin: 0rem 2rem 0rem 2rem !important;
+
+    }
+
+    .listing-card{
+        width: 82% !important;
+        margin: 0rem 2rem 0rem 2rem !important;
+        
+
+    }
+    .rating-card{
+        width: 82% !important;
+        margin: 0rem 2rem 0rem 2rem !important;
+
+    }
+
+    .review-card{
+        width: 82% !important;
+        
+        
+    }
+    
+}
+

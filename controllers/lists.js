@@ -1,14 +1,13 @@
 
 const Listing=require("../Models/listing");
 
+
 module.exports.showLists=async (req,res)=>{   
-    // console.log(req.user);
     let allData= await Listing.find();
     res.render("show_data.ejs",{allData});
 }
 
 module.exports.renderNewForm=(req,res)=>{
-    console.log("show form");
     res.render("show_form.ejs");
 }
 
@@ -42,35 +41,26 @@ module.exports.showMountainsPlace=async(req,res)=>{
     res.render("show_data.ejs",{allData});
 }
 
-module.exports.createList= async (req,res)=>{
 
-        // through upload.single('image'); // here image is value of name attribute
-        let url=req.file.path;
-        let filename=req.file.filename;
-        
-        console.log(req.filename);
-        let{title,description,price,image,location,country}=req.body;
-        let newListing=await Listing.create({
-            title,
-            description,
-            price,
-            image:"",
-            location,
-            country
+module.exports.createList = async (req, res, next) => {
+
+
+        let url=req.file.path;// Cloudinary URL
+        let filename=req.file.filename // Cloudinary filename
     
-        })
-       
+        const newListing=new Listing({...req.body,owner:req.user._id});
+
+    
+
+        // Save the new listing to the database
         newListing.image={url,filename};
-        newListing.owner=req.user._id
         await newListing.save();
-        req.flash("success","new Listing is added")
+
+        // Flash a success message and redirect
+        req.flash("success", "New Listing has been created!");
         res.redirect("/lists");
-    
    
-    
-}
-
-
+    }
 
 
 module.exports.renderUpdateForm=async(req,res)=>{
