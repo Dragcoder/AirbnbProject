@@ -41,7 +41,8 @@ app.use(express.static(path.join(__dirname,"/public")));
 app.use(cookieParser("secretCode")); // secretCode is unquie
 const flash=require("connect-flash");
 
-const dbUrl=process.env.ATLASDB_URL;
+// const dbUrl=process.env.ATLASDB_URL;
+const dbUrl="mongodb://127.0.0.1:27017/advanture";
 
 async function main(){
     await mongoose.connect(dbUrl);
@@ -98,9 +99,6 @@ app.use("/lists",listsRouter); // it is use to show DATA--
 app.use("/lists/:id/reviews",reviewRouter); // it is working on review (Add,delete)- 
                                         // here :id is params-- this will not send to review file so for this use mergParams:true;
 app.use("/",userRouter);
-
-
-
 
 app.all("*",(req,res,next)=>{
     next(new ExpressError(404,"Page not found"));

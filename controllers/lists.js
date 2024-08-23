@@ -8,7 +8,7 @@ module.exports.showLists=async (req,res)=>{
 }
 
 module.exports.renderNewForm=(req,res)=>{
-
+    console.log("show form");
     res.render("show_form.ejs");
 }
 
@@ -48,7 +48,7 @@ module.exports.createList= async (req,res)=>{
         let url=req.file.path;
         let filename=req.file.filename;
         
-        // console.log(req.filename);
+        console.log(req.filename);
         let{title,description,price,image,location,country}=req.body;
         let newListing=await Listing.create({
             title,

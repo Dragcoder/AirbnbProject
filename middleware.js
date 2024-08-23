@@ -6,17 +6,13 @@ const ExpressError = require("./utils/ExpressError");
 
 module.exports.isLoggedIn=(req,res,next)=>{
     if(!req.isAuthenticated()){ // isAuthenticated return true/false--
-        // console.log("isAuthenticated for delete  review");
-        // console.log(req.originalUrl);
-        // console.log(res.locals);
-        // req.session.redirectUrl=req.originalUrl;
-        // console.log(req.session.redirectUrl);
+       
         let {id}=req.params; // current listingId
-        console.log("id from isLoggedIn "+id)
+       
         req.session.listingId=id;
         // console.log(req.session);
         req.flash("error","you must be logged In");
-        return res.redirect("/login");
+        return res.redirect(`/login`);
     }
     next();
 }
@@ -45,12 +41,10 @@ module.exports.isReviewAuthor=async (req,res,next)=>{
   
     // here id == [current listing id] 
     let {id,reviewId}=req.params;
-    console.log("id from isReviewAuthor",id);
-    console.log("reviewId"+reviewId);
+   
 
     let review =await Review.findById(reviewId);
-    console.log("review from isReviewAuthor"+review);
-    console.log("res.locals.currentUser._id from isReviewAuthor"+res.locals.currentUser._id)
+   
     if(!review.author.equals(res.locals.currentUser._id)){
         req.flash("error","you are not author of this review !!");
         return res.redirect(`/lists/${id}`);
