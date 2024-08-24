@@ -82,8 +82,8 @@ module.exports.renderUpdateForm=async(req,res)=>{
 module.exports.updateList=async(req,res)=>{
    
     let {id}=req.params;
-    let updateListing=await Listing.findByIdAndUpdate(id,{...req.body.Listing});
-
+    let updateListing=await Listing.findByIdAndUpdate(id,{...req.body});
+    
     if(typeof req.file !="undefined"){
         let url=req.file.path;
         let filename=req.file.filename;

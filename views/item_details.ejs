@@ -32,17 +32,17 @@
       <div class="row">
         
 
-        <div class="col-6 offset-3">
+        <div class="col-6 offset-3 btns-box">
           
           <% if(currentUser && currentUser._id.equals(targetData.owner._id)){%>
-          <div class="detail-btns">
+          <div class="update-btn">
             <a href="/lists/<%=targetData.id%>/update" 
-              class="btn btn-dark col-3 add-btn btn-size"> Update </a>
+              class="btn btn-dark col-3 add-btn btn-size "> Update </a>
           </div>
 
           <form method="post" action="/lists/<%=targetData.id%>?_method=Delete">
-            <div class="detail-btns">
-              <button class="btn btn-dark col-3 btn-size"> Delete </button>
+            <div class="delete-btn">
+              <button class="btn btn-dark col-3 btn-size "> Delete </button>
             </div>
           </form>
           <%}%>
