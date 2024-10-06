@@ -5,14 +5,10 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 
-
-
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
 const ejsMate=require("ejs-mate");
-
-
 
 const ExpressError=require("./utils/ExpressError.js");
 const path=require("path")
@@ -27,14 +23,10 @@ const userRouter=require("./routes/user.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local")
 const modelUser=require("./Models/user.js");
-const Listing=require("./Models/listing.js");
 
 const cookieParser=require("cookie-parser");
 
 app.use(methodOverride("_method"));
-// 
-
-
 
 app.set("view engine","ejs");
 
@@ -80,8 +72,6 @@ const sessionOption={
         httpOnly:true
     }
 }
-
-
 
 
 app.use(session(sessionOption));
